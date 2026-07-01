@@ -177,14 +177,14 @@ with tab1:
                               "AvgCourseRatingDelivered", "Enrollments"]]
         st.dataframe(
             top10.style.format({"TeacherRating": "{:.2f}", "AvgCourseRatingDelivered": "{:.2f}"}),
-            use_container_width=True,
+            width='stretch',
         )
     with c2:
         st.markdown("**Bottom 10 Instructors**")
         bottom10 = lb.tail(10)[["TeacherName", "Expertise", "TeacherRating"]].sort_values("TeacherRating")
         st.dataframe(
             bottom10.style.format({"TeacherRating": "{:.2f}"}),
-            use_container_width=True,
+            width='stretch',
         )
 
     st.markdown("**Full Leaderboard**")
@@ -197,7 +197,7 @@ with tab1:
         hover_data={"Expertise": True, "YearsOfExperience": True, "Enrollments": True},
     )
     fig.update_layout(margin=dict(l=10, r=10, t=10, b=10))
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, width='stretch')
 
 # ===========================================================================
 # TAB 2 — Experience vs Rating
@@ -217,7 +217,7 @@ with tab2:
             labels={"YearsOfExperience": "Years of Experience", "TeacherRating": "Teacher Rating"},
         )
         fig.update_layout(margin=dict(l=10, r=10, t=10, b=10))
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width='stretch')
         st.caption(f"Pearson correlation: **{corr1:.3f}**" if not pd.isna(corr1) else "Not enough data points for this filter.")
 
     with col2:
@@ -236,7 +236,7 @@ with tab2:
             labels={"YearsOfExperience": "Years of Experience", "AvgCourseRating": "Avg Course Rating Delivered"},
         )
         fig.update_layout(margin=dict(l=10, r=10, t=10, b=10))
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width='stretch')
         st.caption(f"Pearson correlation: **{corr2:.3f}**" if not pd.isna(corr2) else "Not enough data points for this filter.")
 
     st.markdown("---")
@@ -254,7 +254,7 @@ with tab2:
     )
     fig.update_traces(texttemplate="n=%{text}", textposition="outside")
     fig.update_layout(margin=dict(l=10, r=10, t=10, b=10))
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, width='stretch')
     st.caption(
         "Bar height = average Teacher Rating within each experience band; label shows sample size (n). "
         "A flattening or declining trend in later bands would indicate diminishing returns to tenure."
@@ -278,7 +278,7 @@ with tab3:
             labels=dict(color="Avg Rating"),
         )
         fig.update_layout(margin=dict(l=10, r=10, t=10, b=10))
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width='stretch')
 
     with col2:
         st.markdown("**Avg Course Rating: Instructor Gender × Course Level**")
@@ -290,7 +290,7 @@ with tab3:
             labels=dict(color="Avg Rating"),
         )
         fig.update_layout(margin=dict(l=10, r=10, t=10, b=10))
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width='stretch')
 
     st.markdown("---")
     st.markdown("**Category Ranking — Consistently High vs Low Rated**")
@@ -304,7 +304,7 @@ with tab3:
         labels={"AvgRating": "Avg Course Rating", "CourseCategory": ""},
     )
     fig.update_layout(margin=dict(l=10, r=10, t=10, b=10), coloraxis_showscale=False)
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, width='stretch')
     st.caption("Error bars show rating standard deviation within each category — wider bars mean less consistent quality.")
 
 # ===========================================================================
@@ -325,13 +325,12 @@ with tab4:
         barmode="group", labels={"value": "Average Rating", "Expertise": "", "variable": "Metric"},
     )
     fig.update_layout(margin=dict(l=10, r=10, t=10, b=10), xaxis_tickangle=-30)
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, width='stretch')
 
     st.markdown("**Expertise Summary Table**")
     st.dataframe(
         expertise_summary.style.format({"AvgTeacherRating": "{:.2f}", "AvgCourseRating": "{:.2f}"})
-        .background_gradient(subset=["AvgCourseRating"], cmap="RdYlGn"),
-        use_container_width=True,
+        width='stretch',
     )
 
     gap = expertise_summary.copy()
@@ -343,7 +342,7 @@ with tab4:
         labels={"Gap (Teacher − Course)": "Teacher Rating − Course Rating"},
     )
     fig.update_layout(margin=dict(l=10, r=10, t=10, b=10), coloraxis_showscale=False)
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, width='stretch')
     st.caption(
         "Positive bars: instructors in this expertise are rated higher than the courses they deliver "
         "(possible training/content gap). Negative bars: courses outperform instructor reputation."
@@ -360,13 +359,13 @@ with tab5:
         st.markdown("**Distribution of Teacher Ratings**")
         fig = px.histogram(filtered_teachers, x="TeacherRating", nbins=20, color_discrete_sequence=["#4C72B0"])
         fig.update_layout(margin=dict(l=10, r=10, t=10, b=10), bargap=0.05)
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width='stretch')
     with col2:
         st.markdown("**Distribution of Course Ratings**")
         filt_courses = courses[courses["CourseID"].isin(filtered_master["CourseID"].unique())]
         fig = px.histogram(filt_courses, x="CourseRating", nbins=20, color_discrete_sequence=["#55A868"])
         fig.update_layout(margin=dict(l=10, r=10, t=10, b=10), bargap=0.05)
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width='stretch')
 
     st.markdown("---")
     st.markdown("**Course Ratings by Instructor Rating Tier**")
@@ -383,7 +382,7 @@ with tab5:
             labels={"CourseRating": "Course Rating", "RatingTier": "Instructor Tier"},
         )
         fig.update_layout(margin=dict(l=10, r=10, t=10, b=10), showlegend=False)
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width='stretch')
         st.caption("Course-rating spread delivered by instructors in each tier.")
 
     with col4:
@@ -395,7 +394,7 @@ with tab5:
             labels={"Enrollments": "Avg Enrollments per Instructor"},
         )
         fig.update_layout(margin=dict(l=10, r=10, t=10, b=10), showlegend=False)
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width='stretch')
         st.caption("Average enrollment volume per instructor, grouped by their rating tier.")
 
 st.markdown("---")
