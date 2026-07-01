@@ -329,7 +329,7 @@ with tab4:
 
     st.markdown("**Expertise Summary Table**")
     st.dataframe(
-        expertise_summary.style.format({"AvgTeacherRating": "{:.2f}", "AvgCourseRating": "{:.2f}"})
+        expertise_summary.style.format({"AvgTeacherRating": "{:.2f}", "AvgCourseRating": "{:.2f}"}),
         width='stretch',
     )
 
